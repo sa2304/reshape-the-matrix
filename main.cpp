@@ -8,9 +8,30 @@ using Matrix = vector<vector<int>>;
 
 class Solution {
  public:
-  Matrix matrixReshape(Matrix &mat, int r, int c) {
-    // FIXME
-    return {};
+  vector<vector<int>> matrixReshape(vector<vector<int>> &mat, int r, int c) {
+    const int ROWS = mat.size();
+    const int COLUMNS = mat.front().size();
+    if (ROWS == r && COLUMNS == c) { return mat; }
+    if (ROWS * COLUMNS != r * c) { return mat; }
+
+    vector<vector<int>> result(r, vector<int>(c));
+    int read_row = 0, read_column = 0, write_row = 0, write_column = 0;
+    while (write_row < r) {
+      result[write_row][write_column] = mat[read_row][read_column];
+      ++read_column;
+      if (COLUMNS == read_column) {
+        ++read_row;
+        read_column = 0;
+      }
+
+      ++write_column;
+      if (c == write_column) {
+        ++write_row;
+        write_column = 0;
+      }
+    }
+
+    return result;
   }
 };
 
